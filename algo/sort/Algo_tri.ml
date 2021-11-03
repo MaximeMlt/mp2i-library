@@ -18,3 +18,18 @@ let rec tri = function
 (*tri par insertion*)
 
 (*tri rapide*)
+
+let rec concat l1 l2 = match l1 with
+    |[] -> l2
+    |e::q ->  e::concat q l2;;
+    
+let rec partition l p = match l with
+    |[]->[],[]
+    |e::q -> let l1, l2 = partition q p in
+        if  e < p then e::l1, l2
+        else l1, e::l2
+
+let rec trirapide l = match l with
+    |[]->[]
+    |e::q -> let l1, l2 = partition q e in 
+            concat (trirapide l1) (e::trirapide l2)
