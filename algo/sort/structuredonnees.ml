@@ -17,3 +17,24 @@ let retire f =
         f.fin <-(f.fin -1) mod Array.length f.tab;
         if f.deb = f.fin then f.vide <- true
 (*complexité O(1)*)
+
+
+
+
+
+(*liste doublement chainée*)
+type 'a zipper = {left : 'a list; right : 'a list}
+
+let move_left zip = match zip.left with
+    |[]->failwith "Liste gauche vide"
+    |e::q -> {left = q ; right = e::zip.right}
+let move_right zip = match zip.right with
+    |[]->failwith "Liste droite vide"
+    |e::q -> {left = e::zip.left ; right = q}
+let add e z = 
+    {left = z.left ; right = e::z.right}
+let remove z = match z.right with 
+    |[]->failwith "Liste droite vide"
+    |e::q -> {left = z.left ; right = q}
+let convert z = List.rev (z.left) @ z.right 
+
