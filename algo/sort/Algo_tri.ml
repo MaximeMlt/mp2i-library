@@ -15,7 +15,6 @@ let rec tri = function
     | [e] -> [e] 
     | l -> let l1, l2 = split l in fusion (tri l1) (tri l2);;
 
-(*tri par insertion*)
 
 (*tri rapide*)
 
@@ -33,3 +32,14 @@ let rec trirapide l = match l with
     |[]->[]
     |e::q -> let l1, l2 = partition q e in 
             concat (trirapide l1) (e::trirapide l2)
+
+
+(*tri par insertion*)
+let rec insere l e = match l with
+    |[]-> [e]
+    |e1::q -> if e>e1 then e1::insere q e  
+        else e::l
+
+let rec trinsertion l = match l with
+    |[]->[]
+    |e::q-> insere (trinsertion q) e 
