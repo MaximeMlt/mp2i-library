@@ -38,3 +38,45 @@ let remove z = match z.right with
     |e::q -> {left = z.left ; right = q}
 let convert z = List.rev (z.left) @ z.right 
 
+
+
+(*l2c*)
+type 'a l2c = {elem : 'a ; mutable prev : 'a l2c;mutable next : 'a l2c}
+
+let create e =
+    let rec l  = {elem = e;prev = l; next = l} in l
+    
+let add l2c e = 
+    let bloc = {elem = e ; prev = l2c ; next = l2c.next} in
+    l2c.next.prev <- bloc ;
+    l2c.next <- bloc
+
+let del l =
+    l.next.next.prev <- l ;
+    l.next <- l.next.next
+
+let length l = 
+    let cpt = ref 0 in
+    let cur = ref l.next in
+        while !cur != l do
+            incr cpt ;
+            cur  := !cur.next
+        done;
+        !cpt;
+
+let mem l e =
+    let cpt = ref false in
+    let cur = ref l.next in
+        while !cur != l do
+            if !cur.elem = e then cpt := true ;
+            cur  := !cur.next
+        done;
+        !cpt;
+
+let fusion  l1 l2 =
+    let cpt = l1.next in
+    l1.next <- l2.prev;
+    l2.prev <- cpt;
+    l1.next.prev <- l1;
+    l2.next.prev <- l2
+    
